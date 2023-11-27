@@ -1,9 +1,9 @@
 const express = require("express");
 const authMiddleware = require("../../middlewares/auth/authMiddleware");
 const {
-	profilePhotoUpload,
+	photoUpload,
 	profilePhotoResize,
-} = require("../../middlewares/uploads/profilePhotoUpload"); //middleware for the profile photo upload
+} = require("../../middlewares/uploads/photoUpload"); //middleware for the profile photo upload
 
 const {
 	userRegisterController,
@@ -49,7 +49,7 @@ userRoutes.post(
 userRoutes.put(
 	"/profilephoto-upload",
 	authMiddleware,
-	profilePhotoUpload.single("image"),
+	photoUpload.single("image"),
 	profilePhotoResize,
 	profilePhotoUploadController
 ); //upload profile photo

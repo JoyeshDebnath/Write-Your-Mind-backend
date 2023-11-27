@@ -289,7 +289,7 @@ const generateVerificationTokenController = expressAsyncHandler(
 			const verificationToken = await user.createAccountVerificationToken(); //returns a promise so i have used await here to handle the promise
 			//save the user
 			await user.save();
-			console.log(verificationToken);
+			// console.log(verificationToken);
 			//build your message
 			//reset url
 			const resetUrl = `If You were requested to verify your account , verify now within 10 mins , otherwise ignore this message and
@@ -350,7 +350,7 @@ const forgetPasswordTokenController = expressAsyncHandler(async (req, res) => {
 	try {
 		const resetPasswordToken = await user.createPasswordResetToken();
 		await user.save();
-		console.log(resetPasswordToken);
+		// console.log(resetPasswordToken);
 		//send reset message in mail
 		const resetPasswordUrl = `If You have requested to reset your password , use the link to reset password within 10 mins , otherwise ignore this message .
 							<a href="https://localhost:3000/forgot-password/${resetPasswordToken}">Click To Reset Password 🚀</a>`;
@@ -403,12 +403,12 @@ const profilePhotoUploadController = expressAsyncHandler(async (req, res) => {
 	const user = req.user;
 	const { _id } = user;
 
-	console.log("Logged in user:", user);
+	// console.log("Logged in user:", user);
 	//1> get the path of image
 	const localPath = `public/images/profile/${req.file.fileName}`;
 	//2>Upload to cloudinary
 	const imgUploaded = await cloudinaryUploadImage(localPath);
-	console.log(imgUploaded);
+	// console.log(imgUploaded);
 	const foundUser = await User.findByIdAndUpdate(
 		_id,
 		{
