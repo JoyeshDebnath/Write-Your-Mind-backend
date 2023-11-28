@@ -62,6 +62,7 @@ const fetchAllPostsController = expressAsyncHandler(async (req, res) => {
 
 //---------------------------------------------------------------------------------------
 //fetch a single post and populate its user details (POPULATE)
+//update number of views on a post
 //--------------------------------------------------------------------------------------
 const fetchPostController = expressAsyncHandler(async (req, res) => {
 	const { id } = req?.params;
@@ -69,6 +70,14 @@ const fetchPostController = expressAsyncHandler(async (req, res) => {
 
 	try {
 		const post = await Post.findById({ _id: id }).populate("user");
+		//update number of views
+		await Post.findByIdAndUpdate(
+			{ _id: id },
+			{
+				$inc: { numViews: 1 },
+			},
+			{ new: true }
+		);
 		res.json(post);
 	} catch (err) {
 		res.json(err);
