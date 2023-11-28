@@ -5,6 +5,7 @@ const validateMongodbId = require("../../utils/validateMongodbID");
 const sgMail = require("@sendgrid/mail");
 const crypto = require("crypto");
 const cloudinaryUploadImage = require("../../utils/cloudinary");
+const fs = require("fs"); //file system module
 
 //configuration  of send grid
 sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
@@ -408,7 +409,7 @@ const profilePhotoUploadController = expressAsyncHandler(async (req, res) => {
 	const localPath = `public/images/profile/${req.file.fileName}`;
 	//2>Upload to cloudinary
 	const imgUploaded = await cloudinaryUploadImage(localPath);
-	// console.log(imgUploaded);
+
 	const foundUser = await User.findByIdAndUpdate(
 		_id,
 		{
@@ -416,6 +417,8 @@ const profilePhotoUploadController = expressAsyncHandler(async (req, res) => {
 		},
 		{ new: true }
 	);
+	//remove the photo from public folder after upload
+	fs.unlinkSync(localPath);
 
 	res.json(foundUser);
 });
