@@ -6,6 +6,7 @@ const {
 } = require("../../middlewares/uploads/photoUpload");
 const {
 	createPostController,
+	fetchAllPostsController,
 } = require("../../controllers/posts/postController");
 
 const postRoute = express.Router();
@@ -17,4 +18,5 @@ postRoute.post(
 	postImageResize,
 	createPostController
 ); //create a post
+postRoute.get("/", fetchAllPostsController); //fetch all posts
 module.exports = postRoute;

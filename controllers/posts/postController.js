@@ -33,11 +33,11 @@ const createPostController = expressAsyncHandler(async (req, res) => {
 	const imgUploaded = await cloudinaryUploadImage(localPath);
 
 	try {
-		// const post = await Post.create({
-		// 	...req.body,
-		// 	image: imgUploaded?.url,
-		// 	user: _id,
-		// });
+		const post = await Post.create({
+			...req.body,
+			image: imgUploaded?.url,
+			user: _id,
+		});
 		//Remove the file from public folder after upload
 		fs.unlinkSync(`public/images/posts/${req.file.fileName}`);
 		res.json(imgUploaded);
@@ -46,6 +46,21 @@ const createPostController = expressAsyncHandler(async (req, res) => {
 	}
 });
 
+//----------------------------------------------------------------------------------------------
+//fetch all posts controller
+//----------------------------------------------------------------------------------------------
+const fetchAllPostsController = expressAsyncHandler(async (req, res) => {
+	try {
+		const posts = await Post.find({});
+		res.json(posts);
+	} catch (err) {
+		res.json(err);
+	}
+
+	res.json("All posts fetched ");
+});
+
 module.exports = {
 	createPostController,
+	fetchAllPostsController,
 };
