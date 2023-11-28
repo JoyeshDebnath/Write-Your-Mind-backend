@@ -8,6 +8,7 @@ const {
 	createPostController,
 	fetchAllPostsController,
 	fetchPostController,
+	updatePostController,
 } = require("../../controllers/posts/postController");
 
 const postRoute = express.Router();
@@ -21,4 +22,5 @@ postRoute.post(
 ); //create a post
 postRoute.get("/", fetchAllPostsController); //fetch all posts
 postRoute.get("/:id", fetchPostController); //fetch a single post .
+postRoute.put("/:id", authMiddleware, updatePostController); //update a post ..
 module.exports = postRoute;

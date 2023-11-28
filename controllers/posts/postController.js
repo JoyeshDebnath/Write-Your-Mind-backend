@@ -84,8 +84,31 @@ const fetchPostController = expressAsyncHandler(async (req, res) => {
 	}
 });
 
+//-----------------------------------------------------------------------------------
+//Update Post
+//-----------------------------------------------------------------------------------
+const updatePostController = expressAsyncHandler(async (req, res) => {
+	const { id } = req?.params; //post id
+	validateMongodbId(id); //validate the post id .
+	console.log("Logged in user: ", req.user);
+	try {
+		const post = await Post.findByIdAndUpdate(
+			{ _id: id },
+			{
+				...req.body,
+				user: req.user?._id,
+			},
+			{ new: true }
+		);
+		res.json(post);
+	} catch (err) {
+		res.json(err);
+	}
+});
+
 module.exports = {
 	createPostController,
 	fetchAllPostsController,
 	fetchPostController,
+	updatePostController,
 };
