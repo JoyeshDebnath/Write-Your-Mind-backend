@@ -60,7 +60,23 @@ const fetchAllPostsController = expressAsyncHandler(async (req, res) => {
 	res.json("All posts fetched ");
 });
 
+//---------------------------------------------------------------------------------------
+//fetch a single post and populate its user details (POPULATE)
+//--------------------------------------------------------------------------------------
+const fetchPostController = expressAsyncHandler(async (req, res) => {
+	const { id } = req?.params;
+	validateMongodbId(id); //validate the post id
+
+	try {
+		const post = await Post.findById({ _id: id }).populate("user");
+		res.json(post);
+	} catch (err) {
+		res.json(err);
+	}
+});
+
 module.exports = {
 	createPostController,
 	fetchAllPostsController,
+	fetchPostController,
 };

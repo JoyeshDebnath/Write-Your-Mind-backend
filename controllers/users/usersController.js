@@ -114,7 +114,7 @@ const userProfileController = expressAsyncHandler(async (req, res) => {
 	try {
 		const myProfile = await User.findById({
 			_id: id,
-		});
+		}).populate("posts");
 		res.json(myProfile);
 	} catch (err) {}
 });
