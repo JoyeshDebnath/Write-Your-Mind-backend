@@ -11,6 +11,7 @@ const {
 	updatePostController,
 	deletePostController,
 	likePostController,
+	dislikePostController,
 } = require("../../controllers/posts/postController");
 
 const postRoute = express.Router();
@@ -24,6 +25,7 @@ postRoute.post(
 ); //create a post
 postRoute.get("/", fetchAllPostsController); //fetch all posts
 postRoute.put("/likes", authMiddleware, likePostController); //like a post
+postRoute.put("/dislikes", authMiddleware, dislikePostController); //like a post
 postRoute.get("/:id", fetchPostController); //fetch a single post .
 postRoute.put("/:id", authMiddleware, updatePostController); //update a post ..
 postRoute.delete("/:id", authMiddleware, deletePostController); //delete a post
