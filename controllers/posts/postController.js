@@ -120,10 +120,80 @@ const deletePostController = expressAsyncHandler(async (req, res) => {
 		res.json(err);
 	}
 });
+
+//---------------------------------------------------------------------------------------------------
+//Likes a post
+//--------------------------------------------------------------------------------------------------
+const likePostController = expressAsyncHandler(async (req, res) => {
+	//post id
+	const { postId } = req?.body; //post id
+	validateMongodbId(postId); //validate id
+
+	try {
+		const post = await Post.findById({ _id: postId });
+		//find the login user
+		const loginUserId = req?.user?.id;
+		//find if the user has liked
+		const isLiked = post?.isLiked;
+		//if the user has disliked the post before liking the post
+		const alreadyDisliked = post?.dislikes.find(
+			(userId) => userId?.toString() === loginUserId?.toString()
+		);
+		//case 1: if the logged in user has already disliked the post before then remove him from dislike refernce
+		if (alreadyDisliked) {
+			//remove the user from dislikes[ ] if already disliked
+			const post = await Post.findByIdAndUpdate(
+				{ _id: postId },
+				{
+					$pull: { dislikes: loginUserId },
+					isDisliked: false,
+				},
+				{
+					new: true,
+				}
+			);
+			res.json(post);
+		}
+		//case 2 : if the logged in user has liked before and he agin likes it (TOGGLE LIKE FEATURE)
+		if (isLiked) {
+			//remove the user from likes []
+			const post = await Post.findByIdAndUpdate(
+				{ _id: postId },
+				{
+					$pull: { likes: loginUserId },
+					isLiked: false,
+				},
+				{
+					new: true,
+				}
+			);
+			res.json(post);
+		}
+		//case 3: if the user likes or first time .
+		else {
+			const post = await Post.findByIdAndUpdate(
+				{
+					_id: postId,
+				},
+				{
+					$push: { likes: loginUserId },
+					isLiked: true,
+				},
+				{
+					new: true,
+				}
+			);
+			res.json(post);
+		}
+	} catch (err) {
+		res.json(err);
+	}
+});
 module.exports = {
 	createPostController,
 	fetchAllPostsController,
 	fetchPostController,
 	updatePostController,
 	deletePostController,
+	likePostController,
 };
