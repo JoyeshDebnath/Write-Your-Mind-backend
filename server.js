@@ -8,7 +8,7 @@ const app = express();
 //Routes imports
 const userRoutes = require("./route/users/usersRoute"); //user routes
 const postRoute = require("./route/posts/postRoute"); //post Routes
-
+const commentRoute = require("./route/comments/commentRoute"); //comment route
 //DB
 dbConnect();
 //Middleware
@@ -17,6 +17,8 @@ app.use(express.json());
 app.use("/api/users", userRoutes);
 //post routes
 app.use("/api/posts", postRoute);
+//comment route
+app.use("/api/comments", commentRoute);
 //error handler
 app.use(notFound);
 app.use(errorHandler);
