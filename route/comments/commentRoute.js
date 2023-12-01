@@ -5,6 +5,7 @@ const {
 	fetchAllCommentsController,
 	fetchSingleCommentController,
 	updateCommentController,
+	deleteCommentController,
 } = require("../../controllers/comments/commentController");
 const commentRoute = express.Router();
 
@@ -12,5 +13,5 @@ commentRoute.post("/", authMiddleware, createCommentController); //create a comm
 commentRoute.get("/", authMiddleware, fetchAllCommentsController); //get all comments
 commentRoute.get("/:id", authMiddleware, fetchSingleCommentController); //get a single comment
 commentRoute.put("/:id", authMiddleware, updateCommentController); //update a comment
-// commmentRoute.delete("/:id",authMiddleware, ); //delete a comment
+commentRoute.delete("/:id", authMiddleware, deleteCommentController); //delete a comment
 module.exports = commentRoute;
