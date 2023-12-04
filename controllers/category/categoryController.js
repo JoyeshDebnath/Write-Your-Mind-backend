@@ -46,8 +46,47 @@ const getSingleCategoryController = expressAsyncHandler(async (req, res) => {
 		res.json(err);
 	}
 });
+//-----------------------------------------------------------------------
+//update category
+//-----------------------------------------------------------------------
+const updateCategoryController = expressAsyncHandler(async (req, res) => {
+	const { id } = req.params;
+	validateMongodbId(id); //check if the id is valid or not ...
+	try {
+		const category = await Category.findByIdAndUpdate(
+			id,
+			{
+				title: req?.body?.title,
+			},
+			{
+				new: true,
+				runValidators: true,
+			}
+		);
+		res.json(category);
+	} catch (err) {
+		res.json(err);
+	}
+});
+
+//-----------------------------------------------------------------------
+//update category
+//-----------------------------------------------------------------------
+const deleteCategoryController = expressAsyncHandler(async (req, res) => {
+	const { id } = req.params;
+	validateMongodbId(id); //check if the id is valid or not ...
+	try {
+		const category = await Category.findByIdAndDelete(id);
+		res.json(category);
+	} catch (err) {
+		res.json(err);
+	}
+});
+
 module.exports = {
 	createCategoryController,
 	getCategoriesController,
 	getSingleCategoryController,
+	updateCategoryController,
+	deleteCategoryController,
 };
