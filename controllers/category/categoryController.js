@@ -17,6 +17,22 @@ const createCategoryController = expressAsyncHandler(async (req, res) => {
 	}
 });
 
+//----------------------------------------------------------
+//get all categories
+//----------------------------------------------------------
+const getCategoriesController = expressAsyncHandler(async (req, res) => {
+	try {
+		const categories = await Category.find({})
+			.populate("user")
+			.sort("-createdAt"); //sort by created time in ascending order
+		res.json(categories);
+	} catch (err) {
+		res.json(err);
+	}
+});
+
+//------------------------------------
 module.exports = {
 	createCategoryController,
+	getCategoriesController,
 };
