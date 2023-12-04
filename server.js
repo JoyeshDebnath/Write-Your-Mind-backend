@@ -10,6 +10,7 @@ const userRoutes = require("./route/users/usersRoute"); //user routes
 const postRoute = require("./route/posts/postRoute"); //post Routes
 const commentRoute = require("./route/comments/commentRoute"); //comment route
 const emailMessageRoute = require("./route/emailMessage/emailMessageRoute"); //email routes
+const categoryRoute = require("./route/category/categoryRoute"); //category route
 //DB
 dbConnect();
 //Middleware
@@ -22,6 +23,8 @@ app.use("/api/posts", postRoute);
 app.use("/api/comments", commentRoute);
 //email message
 app.use("/api/emails", emailMessageRoute);
+//category route
+app.use("/api/category", categoryRoute);
 //error handler
 app.use(notFound);
 app.use(errorHandler);

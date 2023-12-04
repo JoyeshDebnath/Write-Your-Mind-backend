@@ -28,19 +28,19 @@ const createPostController = expressAsyncHandler(async (req, res) => {
 	}
 
 	//1> get the path of image
-	const localPath = `public/images/posts/${req.file.fileName}`;
+	// const localPath = `public/images/posts/${req.file.fileName}`;
 	//2>Upload to cloud nary
-	const imgUploaded = await cloudinaryUploadImage(localPath);
+	// const imgUploaded = await cloudinaryUploadImage(localPath);
 
 	try {
 		const post = await Post.create({
 			...req.body,
-			image: imgUploaded?.url,
+			// image: imgUploaded?.url,
 			user: _id,
 		});
 		//Remove the file from public folder after upload
-		fs.unlinkSync(`public/images/posts/${req.file.fileName}`);
-		res.json(imgUploaded);
+		// fs.unlinkSync(`public/images/posts/${req.file.fileName}`);
+		res.json(post);
 	} catch (err) {
 		res.json(err);
 	}
