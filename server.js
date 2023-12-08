@@ -1,6 +1,8 @@
 const dotenv = require("dotenv");
 const express = require("express");
+const cors = require("cors");
 const { errorHandler, notFound } = require("./middlewares/error/errorHandler");
+
 //db import
 const dbConnect = require("./config/db/dbConnect");
 dotenv.config();
@@ -11,10 +13,13 @@ const postRoute = require("./route/posts/postRoute"); //post Routes
 const commentRoute = require("./route/comments/commentRoute"); //comment route
 const emailMessageRoute = require("./route/emailMessage/emailMessageRoute"); //email routes
 const categoryRoute = require("./route/category/categoryRoute"); //category route
+
 //DB
 dbConnect();
 //Middleware
 app.use(express.json());
+//cors
+app.use(cors());
 //user routes
 app.use("/api/users", userRoutes);
 //post routes
